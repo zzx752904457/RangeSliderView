@@ -299,6 +299,7 @@ public class RangeSliderView extends View {
 
     /**
      * 设置拖动的图片资源,若不设置默认为画圆
+     *
      * @param imgResource
      */
     public void setIcon(int imgResource) {
@@ -335,7 +336,6 @@ public class RangeSliderView extends View {
     }
 
     /**
-     *
      * @param measureSpec int measure spec to use
      * @return int pixel size
      */
@@ -413,12 +413,14 @@ public class RangeSliderView extends View {
         final int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                //判断是否点击在滑块范围内
                 gotSlot = isInSelectedSlot(x, y);
                 downX = x;
                 downY = y;
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                //要点击滑块才能拖动
                 if (gotSlot) {
                     if (x >= slotPositions[0] && x <= slotPositions[rangeCount - 1]) {
                         currentSlidingX = x;
@@ -513,10 +515,10 @@ public class RangeSliderView extends View {
         drawFilledSlots(canvas);
 
         /**画还没有选中的横线 */
-        drawBar(canvas, (int) slotPositions[0], (int) (slotPositions[rangeCount - 1]+slotRadius*4), emptyColor);
+        drawBar(canvas, (int) slotPositions[0], (int) (slotPositions[rangeCount - 1] + slotRadius * 4), emptyColor);
 
         /**画已经选中的横线 */
-        drawBar(canvas, (int)(x0-slotRadius*4), (int) (currentSlidingX), filledColor);
+        drawBar(canvas, (int) (x0 - slotRadius * 4), (int) (currentSlidingX), filledColor);
 
 
         if (drawImg) {
@@ -584,7 +586,6 @@ public class RangeSliderView extends View {
     }
 
     /**
-     *
      * @param context
      * @param px
      * @return
@@ -594,7 +595,6 @@ public class RangeSliderView extends View {
     }
 
     /**
-     *
      * @param context
      * @param dp
      * @return
