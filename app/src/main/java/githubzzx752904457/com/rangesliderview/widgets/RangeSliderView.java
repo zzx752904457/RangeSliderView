@@ -8,9 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
+import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.Shader;
 import android.os.Build;
@@ -524,6 +526,20 @@ public class RangeSliderView extends View {
         if (drawImg) {
             /** 画拖动的图片 */
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgResource);
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            // 设置想要的大小
+            int newWidth = (int) (radius * 3);
+            int newHeight = (int) (radius * 3);
+            // 计算缩放比例
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+            // 取得想要缩放的matrix参数
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            // 得到新的图片
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix,
+                    true);
             canvas.drawBitmap(bitmap, currentSlidingX - bitmap.getWidth() / 2, y0 - bitmap.getHeight() / 2, paint);
             bitmap.recycle();
         } else {
